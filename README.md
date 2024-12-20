@@ -13,7 +13,7 @@ Examples:
 <img src="videos/gif_fourier_line_rotation.gif" >
 
 
-Why would anyone watch the real movie, when you can watch the Fourier transform of the movie
+Why would anyone watch the real movie, instead of its Fourier transform
 
 <img src="videos/gif_fourier_marvel.gif" >
 

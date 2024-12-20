@@ -11,8 +11,7 @@ from tqdm import tqdm
 
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
+    format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'
 )
 logger = logging.getLogger(__name__)
 
@@ -72,7 +71,6 @@ def process_frame_fourier(frame):
     # scales values in array to 0-255 and converts to uint8
     magnitude_spectrum = cv2.normalize(magnitude_spectrum, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
     return cv2.applyColorMap(magnitude_spectrum, COLOR_MAP)
-
 
 
 def video_to_fourier(input_path, output_path, start_time=None, end_time=None):
@@ -170,19 +168,21 @@ def video_to_fourier(input_path, output_path, start_time=None, end_time=None):
         if os.path.exists(output_path):
             os.remove(output_path)
         os.rename(temp_output, output_path)
-
-    video_clip.close()
-    os.unlink(temp_output)
+    finally:
+        video_clip.close()
+        os.unlink(temp_output)
 
     logger.info("processing complete")
 
 
 def add_audio(audio, video, output_path):
     logger.info("add audio to video...")
+
     processed_clip = VideoFileClip(video)
     final_clip = processed_clip.with_audio(audio)
     final_clip.write_videofile(output_path, codec='libx264', audio_codec='aac', logger=None)
     logger.info(f"output: {output_path}")
+
     processed_clip.close()
     final_clip.close()
 
